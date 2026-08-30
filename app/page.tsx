@@ -20,7 +20,7 @@ const featuredProjects = [
   },
   {
     index: "02",
-    kind: "Learning in public · Deep Learning",
+    kind: "Independent study · Deep Learning",
     title: "Deep learning, rebuilt from the bottom up",
     description:
       "A staged implementation of the ideas behind modern neural networks: a tiny autograd engine, character-level language models, embeddings, deeper MLPs, activations, gradients, and BatchNorm.",
@@ -34,7 +34,7 @@ const featuredProjects = [
   {
     index: "03",
     kind: "Product build · Agent systems",
-    title: "JARVIS, a local voice AI assistant I use daily",
+    title: "JARVIS, a local voice-agent system",
     description:
       "An always-on Windows assistant with real-time voice interaction, tool execution, screen vision, Gmail and Calendar integrations, persistent memory, and pluggable LLM providers.",
     proof: "Voice → reason → act → remember",
@@ -286,7 +286,7 @@ export default function Home() {
           <div className="section-heading">
             <div>
               <div className="section-label light"><span>01</span> SELECTED WORK</div>
-              <h2 id="work-title">Projects with a point of view.</h2>
+              <h2 id="work-title">Selected research and engineering work.</h2>
             </div>
             <p>Research experiments, useful tools, and systems built to understand what is happening under the hood.</p>
           </div>
@@ -416,7 +416,7 @@ export default function Home() {
         <div className="contact-noise" aria-hidden="true" />
         <div className="section-shell contact-inner">
           <p className="eyebrow contact-eyebrow"><span className="signal-dot" /> AVAILABLE IMMEDIATELY OR BY AGREEMENT</p>
-          <h2 id="contact-title">Have a hard problem worth <em>understanding?</em></h2>
+          <h2 id="contact-title">Let’s build systems that stand up to <em>measurement.</em></h2>
           <p className="contact-copy">
             I’m open to research, master’s thesis, and working-student opportunities in machine learning, computer vision, scientific ML, and intelligent systems.
           </p>
@@ -438,7 +438,7 @@ export default function Home() {
       <footer className="site-footer">
         <span>© 2026 Midhun Somanunnithan</span>
         <a href="#top">Back to top ↑</a>
-        <span>Built from real work, not buzzwords.</span>
+        <span>Research · Engineering · Reproducibility</span>
       </footer>
     </main>
   );
