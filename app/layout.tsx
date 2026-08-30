@@ -16,17 +16,17 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: siteUrl,
-    title: "Midhun Somanunnithan — Machine Learning Researcher & Builder",
+    title: "Midhun Somanunnithan — Machine Learning Researcher & Engineer",
     description:
-      "Portfolio of Midhun Somanunnithan: computer vision research, deep learning from scratch, agent systems, automation, and embedded machine learning.",
+      "Portfolio of Midhun Somanunnithan: computer vision research, intelligent automation, deep learning systems, and embedded machine learning.",
     icons: {
       icon: "/profile.png",
       shortcut: "/profile.png",
     },
     openGraph: {
-      title: "Midhun Somanunnithan — Machine Learning Researcher & Builder",
+      title: "Midhun Somanunnithan — Machine Learning Researcher & Engineer",
       description:
-        "Computer vision research, deep learning from scratch, agent systems, automation, and embedded machine learning.",
+        "Computer vision research, intelligent automation, deep learning systems, and embedded machine learning.",
       type: "website",
       url: siteUrl,
       images: [
@@ -34,15 +34,15 @@ export async function generateMetadata(): Promise<Metadata> {
           url: socialImage,
           width: 1536,
           height: 1024,
-          alt: "Midhun Somanunnithan — Learning systems, from first principles.",
+          alt: "Midhun Somanunnithan — Machine Learning Researcher & Engineer.",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "Midhun Somanunnithan — Machine Learning Researcher & Builder",
+      title: "Midhun Somanunnithan — Machine Learning Researcher & Engineer",
       description:
-        "I build learning systems from first principles, then test what survives reality.",
+        "Computer vision, intelligent automation, and machine learning systems grounded in measurable results.",
       images: [socialImage],
     },
   };

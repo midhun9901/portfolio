@@ -30,14 +30,14 @@ test("server-renders Midhun's complete portfolio", async () => {
 
   const html = await response.text();
   assert.match(html, /Midhun Somanunnithan/);
-  assert.match(html, /Hey, I’m Midhun/);
-  assert.match(html, /hold to drive/i);
+  assert.match(html, /Machine Learning Researcher/);
+  assert.match(html, /models meet physical systems/);
   assert.match(html, /83\.4/);
   assert.match(html, /Recall@10/);
   assert.match(html, /100%/);
   assert.match(html, /Deep learning from scratch/);
   assert.match(html, /JARVIS/);
-  assert.match(html, /GRBL motion/);
+  assert.match(html, /GRBL and pneumatic spray system/);
   assert.match(html, /href="https:\/\/github\.com\/midhun9901"/);
   assert.match(html, /href="mailto:midhunnrd812@gmail\.com"/);
   assert.doesNotMatch(html, /Your site is taking shape|codex-preview|react-loading-skeleton/);
@@ -56,10 +56,10 @@ test("keeps final metadata, assets, and accessibility safeguards in place", asyn
   ]);
 
   assert.doesNotMatch(appFiles.join(" "), /_sites-preview/);
-  assert.match(page, /aria-label="Portfolio route"/);
-  assert.match(page, /aria-label="Drive controls"/);
-  assert.match(page, /Bayesian optimization/);
-  assert.match(page, /OpenCV pipeline measured coated area/);
+  assert.match(page, /aria-label="Portfolio sections"/);
+  assert.match(page, /Interactive three-dimensional stack/);
+  assert.match(page, /Bayesian parameter optimization/);
+  assert.match(page, /OpenCV quality measurement/);
   assert.match(page, /aria-hidden|aria-labelledby/);
   assert.match(layout, /generateMetadata/);
   assert.match(layout, /new URL\("\/og\.png", siteUrl\)/);
