@@ -47,7 +47,8 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
-a:focus-visible {
+a:focus-visible,
+button:focus-visible {
   outline: 3px solid var(--pink);
   outline-offset: 4px;
 }
@@ -60,8 +61,32 @@ a:focus-visible {
 #work,
 #experience,
 #about,
+#toolkit,
 #contact {
   scroll-margin-top: 76px;
+}
+
+.story-progress {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  pointer-events: none;
+}
+
+.story-progress span {
+  display: block;
+  width: var(--story-progress);
+  height: 100%;
+  background: var(--pink);
+  box-shadow: 0 0 12px rgba(220, 120, 144, 0.7);
+  transition: width 80ms linear;
+}
+
+.story-rail {
+  display: none;
 }
 
 .section-shell {
@@ -168,6 +193,19 @@ a:focus-visible {
 
 .hero-copy {
   animation: rise 700ms ease both;
+}
+
+.story-kicker {
+  width: max-content;
+  margin: 0 0 22px;
+  padding: 9px 13px;
+  border: 1px solid var(--ink);
+  border-radius: 999px 999px 999px 3px;
+  background: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.02em;
 }
 
 .eyebrow {
@@ -646,6 +684,59 @@ a:focus-visible {
   margin-top: 14px;
   color: rgba(251, 250, 246, 0.54);
   font-size: 0.9rem;
+}
+
+.field-note-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: min(100%, 620px);
+  margin-top: 24px;
+  padding: 13px 0;
+  border: 0;
+  border-top: 1px solid var(--line-light);
+  border-bottom: 1px solid var(--line-light);
+  background: transparent;
+  color: var(--white);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.field-note-toggle b {
+  color: var(--lime);
+  font-family: var(--font-sans);
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.project-detail-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  width: min(100%, 620px);
+  opacity: 0;
+  transition: grid-template-rows 260ms ease, opacity 220ms ease;
+}
+
+.project-detail-wrap > div {
+  overflow: hidden;
+}
+
+.project-detail-wrap.open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.featured-project .project-detail-wrap .project-detail {
+  margin: 16px 0 2px;
+  color: rgba(251, 250, 246, 0.58);
+  font-size: 0.9rem;
+  line-height: 1.65;
 }
 
 .tag-row {
@@ -1388,6 +1479,82 @@ a:focus-visible {
   justify-self: end;
 }
 
+.reveal-ready {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 650ms ease, transform 650ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+.reveal-ready.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (min-width: 1500px) {
+  .story-rail {
+    position: fixed;
+    z-index: 42;
+    top: 50%;
+    left: 24px;
+    display: block;
+    width: 126px;
+    padding: 15px 12px;
+    border: 1px solid var(--line);
+    background: rgba(241, 238, 229, 0.88);
+    backdrop-filter: blur(16px);
+    transform: translateY(-50%);
+  }
+
+  .story-rail > span {
+    display: block;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--line);
+    color: var(--green);
+    font-family: var(--font-mono);
+    font-size: 0.54rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+  }
+
+  .story-rail ol {
+    display: grid;
+    gap: 3px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .story-rail a {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 6px;
+    align-items: center;
+    min-height: 29px;
+    color: rgba(16, 20, 15, 0.45);
+    font-size: 0.63rem;
+    transition: color 180ms ease, transform 180ms ease;
+  }
+
+  .story-rail a:hover,
+  .story-rail a.active {
+    color: var(--ink);
+    transform: translateX(3px);
+  }
+
+  .story-rail a b {
+    font-family: var(--font-mono);
+    font-size: 0.52rem;
+  }
+
+  .story-rail a.active b {
+    color: var(--green);
+  }
+
+  .story-rail a.active span {
+    font-weight: 750;
+  }
+}
+
 @keyframes rise {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
@@ -1705,5 +1872,10 @@ a:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .reveal-ready {
+    opacity: 1;
+    transform: none;
   }
 }

@@ -1,8 +1,21 @@
+"use client";
+
+import { useEffect, useState, type CSSProperties } from "react";
+
 const external = {
   github: "https://github.com/midhun9901",
   linkedin: "https://www.linkedin.com/in/midhun-somanunnithan",
   email: "mailto:midhunnrd812@gmail.com",
 };
+
+const storyChapters = [
+  { id: "top", label: "Hello" },
+  { id: "about", label: "The beginning" },
+  { id: "work", label: "The work" },
+  { id: "experience", label: "In practice" },
+  { id: "toolkit", label: "The method" },
+  { id: "contact", label: "What’s next" },
+];
 
 const featuredProjects = [
   {
@@ -202,32 +215,97 @@ function ProjectVisual({ type }: { type: string }) {
 }
 
 export default function Home() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [activeChapter, setActiveChapter] = useState("top");
+  const [openFieldNote, setOpenFieldNote] = useState<string | null>("01");
+
+  useEffect(() => {
+    const updateProgress = () => {
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0);
+    };
+
+    const chapterObserver = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.find((entry) => entry.isIntersecting);
+        if (visible) setActiveChapter((visible.target as HTMLElement).dataset.chapter ?? "top");
+      },
+      { rootMargin: "-35% 0px -55%", threshold: 0 },
+    );
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { rootMargin: "0px 0px -10%", threshold: 0.08 },
+    );
+
+    const chapters = document.querySelectorAll<HTMLElement>("[data-chapter]");
+    const revealItems = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    chapters.forEach((chapter) => chapterObserver.observe(chapter));
+    revealItems.forEach((item) => {
+      item.classList.add("reveal-ready");
+      revealObserver.observe(item);
+    });
+    updateProgress();
+    window.addEventListener("scroll", updateProgress, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", updateProgress);
+      chapterObserver.disconnect();
+      revealObserver.disconnect();
+    };
+  }, []);
+
   return (
-    <main id="top">
+    <main
+      id="top"
+      style={{ "--story-progress": `${scrollProgress}%` } as CSSProperties}
+    >
+      <div className="story-progress" aria-hidden="true"><span /></div>
       <nav className="site-nav" aria-label="Main navigation">
         <a className="brand" href="#top" aria-label="Midhun Somanunnithan, back to top">
           <img src="/profile.png" alt="" width="34" height="34" />
           <span>MIDHUN.S</span>
         </a>
         <div className="nav-links">
-          <a href="#work">Work</a>
+          <a href="#about">My story</a>
+          <a href="#work">Projects</a>
           <a href="#experience">Experience</a>
-          <a href="#about">About</a>
         </div>
         <a className="nav-contact" href="#contact">Let’s talk <span aria-hidden="true">↘</span></a>
       </nav>
 
-      <section className="hero section-shell" aria-labelledby="hero-title">
+      <aside className="story-rail" aria-label="Story chapters">
+        <span>THE STORY</span>
+        <ol>
+          {storyChapters.map((chapter, index) => (
+            <li key={chapter.id}>
+              <a className={activeChapter === chapter.id ? "active" : ""} href={`#${chapter.id}`}>
+                <b>0{index + 1}</b><span>{chapter.label}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
+      </aside>
+
+      <section className="hero section-shell" data-chapter="top" aria-labelledby="hero-title">
         <div className="hero-copy">
           <p className="eyebrow"><span className="signal-dot" /> Nuremberg / Erlangen, Germany</p>
+          <p className="story-kicker">Hey, I’m Midhun.</p>
           <h1 id="hero-title">
-            I build learning systems from <em>first principles.</em>
+            I began with machines. <em>Then I taught them to learn.</em>
           </h1>
           <p className="hero-lede">
-            Then I test what survives reality. I’m Midhun—a deep learning research assistant and E-Mobility master’s student working across computer vision, ML systems, automation, and embedded intelligence.
+            This is the short story of how a mechanical engineer became a deep-learning researcher—without losing the habit of testing whether things actually work outside the notebook.
           </p>
           <div className="hero-actions">
-            <a className="button button-primary" href="#work">Explore my work <span aria-hidden="true">↓</span></a>
+            <a className="button button-primary" href="#about">Start the story <span aria-hidden="true">↓</span></a>
             <a className="button button-secondary" href={external.github} target="_blank" rel="noreferrer">GitHub <Arrow /></a>
           </div>
         </div>
@@ -263,16 +341,16 @@ export default function Home() {
         <div className="proof-item"><strong>C1 / B2</strong><span>English / German</span></div>
       </section>
 
-      <section className="manifesto section-shell" id="about" aria-labelledby="manifesto-title">
-        <div className="section-label"><span>00</span> PROFILE</div>
-        <div className="manifesto-grid">
-          <h2 id="manifesto-title">A mechanical engineer’s systems instinct, applied to machine learning.</h2>
+      <section className="manifesto section-shell" id="about" data-chapter="about" aria-labelledby="manifesto-title">
+        <div className="section-label"><span>01</span> THE BEGINNING</div>
+        <div className="manifesto-grid" data-reveal>
+          <h2 id="manifesto-title">I started with machines I could touch.</h2>
           <div className="manifesto-copy">
             <p>
-              My path into AI started with physical systems: motion, control, signals, embedded hardware, and the habit of asking whether a result still holds outside a notebook.
+              Mechanical engineering taught me to think in forces, motion, signals, and failure. If a system looked good on paper but failed on the bench, the bench won.
             </p>
             <p>
-              Today I bring that same instinct to computer vision and deep learning—building controlled experiments, comparing honest baselines, tracing failure modes, and turning research code into reproducible systems.
+              When I moved into computer vision and deep learning, I kept that instinct. I still build controlled experiments, compare honest baselines, trace failure modes, and ask one simple question: does the result hold up?
             </p>
             <div className="principles">
               <span>Build it</span><i>→</i><span>Measure it</span><i>→</i><span>Explain it</span>
@@ -281,25 +359,36 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="work-section" id="work" aria-labelledby="work-title">
+      <section className="work-section" id="work" data-chapter="work" aria-labelledby="work-title">
         <div className="section-shell">
-          <div className="section-heading">
+          <div className="section-heading" data-reveal>
             <div>
-              <div className="section-label light"><span>01</span> SELECTED WORK</div>
-              <h2 id="work-title">Selected research and engineering work.</h2>
+              <div className="section-label light"><span>02</span> THE WORK</div>
+              <h2 id="work-title">Then I started teaching machines to see.</h2>
             </div>
-            <p>Research experiments, useful tools, and systems built to understand what is happening under the hood.</p>
+            <p>Three projects explain my approach better than a list of skills. Open the field notes to see what I tried, what worked, and what did not.</p>
           </div>
 
           <div className="featured-projects">
             {featuredProjects.map((project) => (
-              <article className="featured-project" key={project.index}>
+              <article className="featured-project" key={project.index} data-reveal>
                 <div className="project-copy">
                   <div className="project-meta"><span>{project.index}</span><span>{project.kind}</span></div>
                   <h3>{project.title}</h3>
                   <p>{project.description}</p>
                   <strong className="project-proof">{project.proof}</strong>
-                  <p className="project-detail">{project.detail}</p>
+                  <button
+                    className="field-note-toggle"
+                    type="button"
+                    aria-expanded={openFieldNote === project.index}
+                    onClick={() => setOpenFieldNote(openFieldNote === project.index ? null : project.index)}
+                  >
+                    <span>{openFieldNote === project.index ? "Close field note" : "Open field note"}</span>
+                    <b aria-hidden="true">{openFieldNote === project.index ? "−" : "+"}</b>
+                  </button>
+                  <div className={`project-detail-wrap ${openFieldNote === project.index ? "open" : ""}`}>
+                    <div><p className="project-detail">{project.detail}</p></div>
+                  </div>
                   <div className="tag-row">
                     {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
                   </div>
@@ -314,7 +403,7 @@ export default function Home() {
 
           <div className="compact-grid">
             {compactProjects.map((project) => (
-              <article className="compact-project" key={project.number}>
+              <article className="compact-project" key={project.number} data-reveal>
                 <div className="compact-number">{project.number}</div>
                 <p className="compact-kicker">{project.kicker}</p>
                 <h3>{project.title}</h3>
@@ -341,18 +430,18 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="experience-section section-shell" id="experience" aria-labelledby="experience-title">
-        <div className="section-heading dark-heading">
+      <section className="experience-section section-shell" id="experience" data-chapter="experience" aria-labelledby="experience-title">
+        <div className="section-heading dark-heading" data-reveal>
           <div>
-            <div className="section-label"><span>02</span> EXPERIENCE</div>
-            <h2 id="experience-title">Work grounded in experiments and hardware.</h2>
+            <div className="section-label"><span>03</span> IN PRACTICE</div>
+            <h2 id="experience-title">The work changed. My method didn’t.</h2>
           </div>
-          <p>From GPU clusters to physical automation: the common thread is careful evaluation and systems that can be repeated.</p>
+          <p>From physical automation to A100 GPU experiments, I keep returning to the same discipline: make it measurable, repeatable, and clear enough for someone else to trust.</p>
         </div>
 
         <div className="timeline">
           {experience.map((item, index) => (
-            <article className="timeline-item" key={item.role}>
+            <article className="timeline-item" key={item.role} data-reveal>
               <div className="timeline-index">0{index + 1}</div>
               <div className="timeline-date">{item.dates}</div>
               <div className="timeline-main">
@@ -372,14 +461,14 @@ export default function Home() {
           <div className="section-label light"><span>03</span> EDUCATION</div>
           <h2 id="education-title">Built between engineering and intelligence.</h2>
           <div className="education-grid">
-            <article>
+            <article data-reveal>
               <span className="education-year">2022 — PRESENT</span>
               <p className="degree-type">MASTER OF SCIENCE</p>
               <h3>E-Mobility (ACES)</h3>
               <p>Friedrich-Alexander-Universität Erlangen-Nürnberg</p>
               <div className="degree-note">Computer vision · Deep learning · physical systems</div>
             </article>
-            <article>
+            <article data-reveal>
               <span className="education-year">2017 — 2021</span>
               <p className="degree-type">BACHELOR OF TECHNOLOGY</p>
               <h3>Mechanical Engineering</h3>
@@ -390,17 +479,17 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="toolkit-section section-shell" aria-labelledby="toolkit-title">
-        <div className="section-heading dark-heading">
+      <section className="toolkit-section section-shell" id="toolkit" data-chapter="toolkit" aria-labelledby="toolkit-title">
+        <div className="section-heading dark-heading" data-reveal>
           <div>
-            <div className="section-label"><span>04</span> TOOLKIT</div>
-            <h2 id="toolkit-title">Methods before buzzwords.</h2>
+            <div className="section-label"><span>04</span> THE METHOD</div>
+            <h2 id="toolkit-title">Here’s how I work when the answer isn’t obvious.</h2>
           </div>
           <p>I choose tools around the question, then make the comparison reproducible enough to defend.</p>
         </div>
         <div className="skills-grid">
           {skills.map((skill, index) => (
-            <article key={skill.title}>
+            <article key={skill.title} data-reveal>
               <span>0{index + 1}</span>
               <h3>{skill.title}</h3>
               <p>{skill.items}</p>
@@ -412,11 +501,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="contact-section" id="contact" aria-labelledby="contact-title">
+      <section className="contact-section" id="contact" data-chapter="contact" aria-labelledby="contact-title">
         <div className="contact-noise" aria-hidden="true" />
-        <div className="section-shell contact-inner">
+        <div className="section-shell contact-inner" data-reveal>
           <p className="eyebrow contact-eyebrow"><span className="signal-dot" /> AVAILABLE IMMEDIATELY OR BY AGREEMENT</p>
-          <h2 id="contact-title">Let’s build systems that stand up to <em>measurement.</em></h2>
+          <h2 id="contact-title">That’s the story so far. <em>What should we build next?</em></h2>
           <p className="contact-copy">
             I’m open to research, master’s thesis, and working-student opportunities in machine learning, computer vision, scientific ML, and intelligent systems.
           </p>

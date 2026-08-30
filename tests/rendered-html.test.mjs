@@ -30,11 +30,13 @@ test("server-renders Midhun's complete portfolio", async () => {
 
   const html = await response.text();
   assert.match(html, /Midhun Somanunnithan/);
-  assert.match(html, /I build learning systems from/);
+  assert.match(html, /I began with machines/);
   assert.match(html, /83\.4/);
   assert.match(html, /100% Recall@10/);
   assert.match(html, /Deep learning, rebuilt from the bottom up/);
   assert.match(html, /JARVIS, a local voice-agent system/);
+  assert.match(html, /Open field note/);
+  assert.match(html, /Story chapters/);
   assert.match(html, /href="https:\/\/github\.com\/midhun9901"/);
   assert.match(html, /href="mailto:midhunnrd812@gmail\.com"/);
   assert.doesNotMatch(html, /Your site is taking shape|codex-preview|react-loading-skeleton/);
