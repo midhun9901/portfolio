@@ -42,8 +42,10 @@ const experience = [
 const projects = [
   {
     number: "01",
+    chapter: "Observe",
     title: "Fine-grained vase retrieval",
     label: "Computer vision research",
+    story: "The story starts with perception: teaching a system to recognise the same object when viewpoint, occlusion, and visual similarity work against it.",
     copy: "Seven controlled retrieval pipelines for matching historical vase depictions across viewpoint, occlusion, and near-identical objects. DINOv2 with Triplet Loss delivered the strongest result.",
     proof: "83.4% mAP · 100% Recall@10",
     tags: ["PyTorch", "DINOv2", "Metric Learning", "FAISS"],
@@ -51,16 +53,20 @@ const projects = [
   },
   {
     number: "02",
+    chapter: "Automate",
     title: "Automated spray intelligence",
     label: "Automation · Vision · Optimization",
+    story: "Then the problem leaves the screen. Motion must become repeatable, quality measurable, and process decisions grounded in evidence.",
     copy: "A GRBL and pneumatic spray system with programmable trajectories, OpenCV quality measurement, CNN and ViT grading, segmentation experiments, multimodal prediction, and Bayesian parameter optimization.",
     proof: "Motion → measurement → learning → optimization",
     tags: ["GRBL", "OpenCV", "PyTorch", "Bayesian Optimization"],
   },
   {
     number: "03",
+    chapter: "Understand",
     title: "Deep learning from scratch",
     label: "Independent study",
+    story: "To understand what happens inside the model, I rebuilt the learning process from its smallest operations upward.",
     copy: "A hand-built autograd engine and staged character-level language models, progressing from a bigram baseline to a six-layer BatchNorm network with explicit training diagnostics.",
     proof: "47,024 parameters · NLL 2.45 → 2.09",
     tags: ["Autograd", "Language Models", "BatchNorm", "PyTorch"],
@@ -68,14 +74,28 @@ const projects = [
   },
   {
     number: "04",
+    chapter: "Orchestrate",
     title: "JARVIS",
     label: "Local agent system",
+    story: "Finally, the pieces become a working system: perception, language, memory, and tools coordinated around a real daily workflow.",
     copy: "A daily-use Windows voice system with streaming interaction, tool execution, screen vision, Gmail and Calendar integrations, and persistent memory.",
     proof: "Voice → reason → act → remember",
     tags: ["FastAPI", "React", "WebSockets", "OAuth2"],
     href: "https://github.com/midhun9901/jarvis",
   },
 ];
+
+const calibrationChannels = [
+  { key: "motion", label: "Motion timing" },
+  { key: "vision", label: "Inspection threshold" },
+  { key: "learning", label: "Correction gain" },
+] as const;
+
+const calibrationRounds = [
+  { name: "Coverage drift", motion: 72, vision: 48, learning: 84 },
+  { name: "Edge consistency", motion: 34, vision: 76, learning: 58 },
+  { name: "Repeatability", motion: 62, vision: 88, learning: 41 },
+] as const;
 
 function Arrow() {
   return <span aria-hidden="true">↗</span>;
@@ -85,7 +105,17 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("about");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [tilt, setTilt] = useState({ x: -7, y: 9 });
+  const [roundIndex, setRoundIndex] = useState(0);
+  const [calibration, setCalibration] = useState({ motion: 50, vision: 50, learning: 50 });
   const glowRef = useRef<HTMLDivElement>(null);
+
+  const gameTarget = calibrationRounds[roundIndex];
+  const averageError = calibrationChannels.reduce(
+    (total, channel) => total + Math.abs(calibration[channel.key] - gameTarget[channel.key]),
+    0,
+  ) / calibrationChannels.length;
+  const gameScore = Math.max(0, 100 - Math.round(averageError));
+  const gameStable = gameScore >= 96;
 
   useEffect(() => {
     const updateProgress = () => {
@@ -166,6 +196,11 @@ export default function Home() {
     card.style.removeProperty("--card-rotate-y");
     card.style.removeProperty("--card-light-x");
     card.style.removeProperty("--card-light-y");
+  };
+
+  const nextCalibrationRound = () => {
+    setRoundIndex((current) => (current + 1) % calibrationRounds.length);
+    setCalibration({ motion: 50, vision: 50, learning: 50 });
   };
 
   return (
@@ -259,14 +294,63 @@ export default function Home() {
 
         <section className="content-section" id="work" data-section="work" aria-labelledby="work-title">
           <p className="section-kicker">Selected work</p>
-          <h2 className="section-title" id="work-title" data-reveal>Four projects. Four ways of understanding a system.</h2>
+          <h2 className="section-title" id="work-title" data-reveal>One thread. Four engineering chapters.</h2>
+
+          <div className="work-story" data-reveal>
+            <span>The connecting idea</span>
+            <p>Start by observing a difficult signal. Make the physical process controllable. Rebuild the model until its behaviour is understood. Then connect the pieces into a system people can actually use.</p>
+          </div>
+
+          <div className={`calibration-game${gameStable ? " is-stable" : ""}`} data-reveal>
+            <div className="game-copy">
+              <p className="game-eyebrow">Interactive interlude · Run {String(roundIndex + 1).padStart(2, "0")}</p>
+              <h3>You are the control loop.</h3>
+              <p>Align the three signals with their target markers. The closer the system gets, the higher its stability score.</p>
+              <div className="game-score">
+                <span>System stability</span>
+                <strong>{gameScore}%</strong>
+              </div>
+              <p className="game-status" aria-live="polite">
+                {gameStable ? "Stable. The run is ready for repeatable evaluation." : gameScore >= 90 ? "Nearly locked. Fine-tune the remaining drift." : "The loop is drifting. Bring each signal toward its marker."}
+              </p>
+              <button type="button" onClick={nextCalibrationRound}>
+                {gameStable ? "Next scenario" : "Change scenario"} <Arrow />
+              </button>
+            </div>
+
+            <div className="game-controls" aria-label={`${gameTarget.name} calibration controls`}>
+              <div className="scenario-label"><span>Scenario</span><strong>{gameTarget.name}</strong></div>
+              {calibrationChannels.map((channel) => (
+                <label className="calibration-control" key={channel.key}>
+                  <span><b>{channel.label}</b><small>{calibration[channel.key]} / target {gameTarget[channel.key]}</small></span>
+                  <div className="calibration-track">
+                    <i style={{ left: `${gameTarget[channel.key]}%` }} aria-hidden="true" />
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={calibration[channel.key]}
+                      onChange={(event) => setCalibration((current) => ({
+                        ...current,
+                        [channel.key]: Number(event.target.value),
+                      }))}
+                      aria-label={`${channel.label}, target ${gameTarget[channel.key]}`}
+                    />
+                  </div>
+                </label>
+              ))}
+              <p className="game-hint">Drag · tap · or use arrow keys</p>
+            </div>
+          </div>
+
           <div className="project-list">
             {projects.map((project) => {
               const content = (
                 <>
-                  <div className="project-topline"><span>{project.number}</span><small>{project.label}</small></div>
+                  <div className="project-topline"><span>Chapter {project.number} · {project.chapter}</span><small>{project.label}</small></div>
                   <h3>{project.title}</h3>
-                  <p>{project.copy}</p>
+                  <p className="project-story">{project.story}</p>
+                  <p className="project-copy">{project.copy}</p>
                   <strong>{project.proof}</strong>
                   <div className="tag-list">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
                   <div className={`project-repository${project.href ? "" : " unavailable"}`}>
