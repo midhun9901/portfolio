@@ -43,9 +43,9 @@ test("server-renders Midhun's complete portfolio", async () => {
   assert.match(html, /href="https:\/\/github\.com\/midhun9901\/deep-learning-from-scratch"/);
   assert.match(html, /href="https:\/\/github\.com\/midhun9901\/jarvis"/);
   assert.match(html, /Research code not public/);
-  assert.match(html, /You are the control loop/);
-  assert.match(html, /Motion timing/);
-  assert.match(html, /One thread\. Four engineering chapters/);
+  assert.match(html, /MS \/\/ SYSTEM PATH/);
+  assert.match(html, /Playable Snake game/);
+  assert.match(html, /Tap, swipe, or use WASD/);
   assert.match(html, /href="mailto:midhunnrd812@gmail\.com"/);
   assert.doesNotMatch(html, /Your site is taking shape|codex-preview|react-loading-skeleton/);
   assert.doesNotMatch(html, /ChatGPT|OpenAI|Codex/);
@@ -64,10 +64,11 @@ test("keeps final metadata, assets, and accessibility safeguards in place", asyn
 
   assert.doesNotMatch(appFiles.join(" "), /_sites-preview/);
   assert.match(page, /aria-label="Portfolio sections"/);
-  assert.match(page, /Interactive three-dimensional stack/);
+  assert.match(page, /Playable Snake game/);
   assert.match(page, /Bayesian parameter optimization/);
   assert.match(page, /OpenCV quality measurement/);
-  assert.match(page, /type="range"/);
+  assert.match(page, /SNAKE_COLUMNS/);
+  assert.match(page, /onKeyDown=\{handleSnakeKey\}/);
   assert.match(page, /aria-live="polite"/);
   assert.match(page, /aria-hidden|aria-labelledby/);
   assert.match(layout, /generateMetadata/);
