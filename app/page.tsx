@@ -289,6 +289,8 @@ export default function Home() {
           </nav>
         </div>
 
+        {/* The game surface is a single composite keyboard and pointer widget. */}
+        {/* eslint-disable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */}
         <div
           className={`depth-stage snake-stage is-${snakeStatus}`}
           role="application"
@@ -347,6 +349,7 @@ export default function Home() {
             </div>
           </div>
         </div>
+        {/* eslint-enable jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/no-noninteractive-tabindex */}
 
         <div className="socials">
           <a href={external.github} target="_blank" rel="noreferrer" aria-label="GitHub">GitHub</a>
