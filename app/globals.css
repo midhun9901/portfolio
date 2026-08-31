@@ -101,6 +101,7 @@ button:focus-visible,
   top: 0;
   display: flex;
   flex-direction: column;
+  min-width: 0;
   height: 100vh;
   padding: clamp(42px, 5vw, 78px) clamp(34px, 5vw, 72px) 34px;
 }
@@ -108,6 +109,7 @@ button:focus-visible,
 .intro-copy {
   position: relative;
   z-index: 3;
+  width: 100%;
 }
 
 .monogram {
@@ -154,13 +156,23 @@ button:focus-visible,
 }
 
 .intro-panel h1 {
+  max-width: 100%;
   margin: 20px 0 0;
   color: var(--text-bright);
   font-family: var(--font-display);
-  font-size: clamp(3.6rem, 5.4vw, 6.6rem);
+  font-size: clamp(3.6rem, 5.2vw, 6rem);
   font-weight: 750;
   letter-spacing: -0.065em;
   line-height: 0.84;
+}
+
+.intro-panel h1 span {
+  display: block;
+}
+
+.intro-panel h1 span:last-child {
+  font-size: 0.78em;
+  letter-spacing: -0.055em;
 }
 
 .intro-panel h2 {
@@ -332,6 +344,8 @@ button:focus-visible,
 .content-panel {
   position: relative;
   z-index: 2;
+  min-width: 0;
+  border-left: 1px solid rgba(148, 171, 184, 0.1);
   padding: 0 clamp(34px, 5vw, 74px) 0 clamp(24px, 4vw, 64px);
 }
 
@@ -714,7 +728,7 @@ button:focus-visible,
   }
 
   .intro-panel h1 {
-    font-size: clamp(3.3rem, 5.4vw, 5.4rem);
+    font-size: clamp(3.25rem, 5.1vw, 5rem);
   }
 
   .depth-stage {
@@ -762,6 +776,7 @@ button:focus-visible,
   }
 
   .content-panel {
+    border-left: 0;
     padding: 0 24px;
   }
 
@@ -794,6 +809,10 @@ button:focus-visible,
 
   .intro-panel h1 {
     font-size: clamp(3.6rem, 18vw, 5.2rem);
+  }
+
+  .intro-panel h1 span:last-child {
+    font-size: 0.84em;
   }
 
   .intro-summary {

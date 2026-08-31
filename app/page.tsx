@@ -145,7 +145,7 @@ export default function Home() {
         <div className="intro-copy">
           <a className="monogram" href="#about">MS</a>
           <p className="availability"><i /> Based in Nuremberg / Erlangen</p>
-          <h1>Midhun<br />Somanunnithan</h1>
+          <h1><span>Midhun</span><span>Somanunnithan</span></h1>
           <h2>Machine Learning Researcher & Engineer</h2>
           <p className="intro-summary">I build and evaluate computer-vision systems, then connect them to real software and physical processes.</p>
 
