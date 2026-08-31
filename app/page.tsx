@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
 
 const external = {
   github: "https://github.com/midhun9901",
@@ -85,6 +85,7 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState("about");
   const [scrollProgress, setScrollProgress] = useState(0);
   const [tilt, setTilt] = useState({ x: -7, y: 9 });
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -114,6 +115,14 @@ export default function Home() {
 
     const sections = document.querySelectorAll<HTMLElement>("[data-section]");
     const reveals = document.querySelectorAll<HTMLElement>("[data-reveal]");
+    const moveGlow = (event: PointerEvent) => {
+      if (!glowRef.current) return;
+      glowRef.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
+      glowRef.current.dataset.visible = "true";
+    };
+    const hideGlow = () => {
+      if (glowRef.current) glowRef.current.dataset.visible = "false";
+    };
     sections.forEach((section) => sectionObserver.observe(section));
     reveals.forEach((item) => {
       item.classList.add("reveal-ready");
@@ -122,22 +131,48 @@ export default function Home() {
 
     updateProgress();
     window.addEventListener("scroll", updateProgress, { passive: true });
+    window.addEventListener("pointermove", moveGlow, { passive: true });
+    document.documentElement.addEventListener("mouseleave", hideGlow);
     return () => {
       window.removeEventListener("scroll", updateProgress);
+      window.removeEventListener("pointermove", moveGlow);
+      document.documentElement.removeEventListener("mouseleave", hideGlow);
       sectionObserver.disconnect();
       revealObserver.disconnect();
     };
   }, []);
 
-  const updateTilt = (event: React.PointerEvent<HTMLDivElement>) => {
+  const updateTilt = (event: ReactPointerEvent<HTMLDivElement>) => {
     const rect = event.currentTarget.getBoundingClientRect();
     const x = ((event.clientX - rect.left) / rect.width - 0.5) * 22;
     const y = ((event.clientY - rect.top) / rect.height - 0.5) * -18;
     setTilt({ x: y, y: x });
   };
 
+  const updateCardTilt = (event: ReactPointerEvent<HTMLElement>) => {
+    const card = event.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+    card.style.setProperty("--card-rotate-x", `${(0.5 - y) * 5}deg`);
+    card.style.setProperty("--card-rotate-y", `${(x - 0.5) * 6}deg`);
+    card.style.setProperty("--card-light-x", `${x * 100}%`);
+    card.style.setProperty("--card-light-y", `${y * 100}%`);
+  };
+
+  const resetCardTilt = (event: ReactPointerEvent<HTMLElement>) => {
+    const card = event.currentTarget;
+    card.style.removeProperty("--card-rotate-x");
+    card.style.removeProperty("--card-rotate-y");
+    card.style.removeProperty("--card-light-x");
+    card.style.removeProperty("--card-light-y");
+  };
+
   return (
     <main className="portfolio-shell">
+      <div className="opening-frame" aria-hidden="true"><span>MS</span><i /></div>
+      <div className="film-grain" aria-hidden="true" />
+      <div className="cursor-light" ref={glowRef} data-visible="false" aria-hidden="true" />
       <div className="scroll-progress" aria-hidden="true"><span style={{ width: `${scrollProgress}%` }} /></div>
       <div className="ambient-grid" aria-hidden="true" style={{ transform: `translateY(${-scrollProgress * 0.45}px)` }} />
 
@@ -239,11 +274,28 @@ export default function Home() {
               );
 
               return project.href ? (
-                <a className="project-card" key={project.number} href={project.href} target="_blank" rel="noreferrer" data-reveal>
+                <a
+                  className="project-card"
+                  key={project.number}
+                  href={project.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  data-reveal
+                  onPointerMove={updateCardTilt}
+                  onPointerLeave={resetCardTilt}
+                >
                   {content}
                 </a>
               ) : (
-                <article className="project-card" key={project.number} data-reveal>{content}</article>
+                <article
+                  className="project-card"
+                  key={project.number}
+                  data-reveal
+                  onPointerMove={updateCardTilt}
+                  onPointerLeave={resetCardTilt}
+                >
+                  {content}
+                </article>
               );
             })}
           </div>
