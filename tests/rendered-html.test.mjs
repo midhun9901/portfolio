@@ -39,6 +39,10 @@ test("server-renders Midhun's complete portfolio", async () => {
   assert.match(html, /JARVIS/);
   assert.match(html, /GRBL and pneumatic spray system/);
   assert.match(html, /href="https:\/\/github\.com\/midhun9901"/);
+  assert.match(html, /href="https:\/\/github\.com\/midhun9901\/vase-urn-project"/);
+  assert.match(html, /href="https:\/\/github\.com\/midhun9901\/deep-learning-from-scratch"/);
+  assert.match(html, /href="https:\/\/github\.com\/midhun9901\/jarvis"/);
+  assert.match(html, /Research code not public/);
   assert.match(html, /href="mailto:midhunnrd812@gmail\.com"/);
   assert.doesNotMatch(html, /Your site is taking shape|codex-preview|react-loading-skeleton/);
   assert.doesNotMatch(html, /ChatGPT|OpenAI|Codex/);

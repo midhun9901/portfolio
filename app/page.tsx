@@ -269,7 +269,10 @@ export default function Home() {
                   <p>{project.copy}</p>
                   <strong>{project.proof}</strong>
                   <div className="tag-list">{project.tags.map((tag) => <span key={tag}>{tag}</span>)}</div>
-                  {project.href && <div className="project-arrow"><Arrow /></div>}
+                  <div className={`project-repository${project.href ? "" : " unavailable"}`}>
+                    <span>{project.href ? "View on GitHub" : "Research code not public"}</span>
+                    {project.href && <Arrow />}
+                  </div>
                 </>
               );
 
@@ -280,6 +283,7 @@ export default function Home() {
                   href={project.href}
                   target="_blank"
                   rel="noreferrer"
+                  aria-label={`Open ${project.title} repository on GitHub`}
                   data-reveal
                   onPointerMove={updateCardTilt}
                   onPointerLeave={resetCardTilt}

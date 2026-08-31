@@ -752,20 +752,32 @@ button:focus-visible,
   font-weight: 750;
 }
 
-.project-arrow {
+.project-repository {
   position: absolute;
   right: 30px;
   bottom: 26px;
-  display: grid;
-  place-items: center;
-  width: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
   height: 42px;
+  padding: 0 14px;
   border: 1px solid var(--line);
   color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  font-weight: 750;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   transition: background 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
-.project-card:hover .project-arrow {
+.project-repository.unavailable {
+  color: var(--muted);
+  cursor: default;
+}
+
+.project-card:hover .project-repository:not(.unavailable) {
   background: var(--accent);
   color: var(--navy);
   transform: translate(3px, -3px);
@@ -1005,7 +1017,7 @@ button:focus-visible,
     gap: 7px;
   }
 
-  .project-arrow {
+  .project-repository {
     right: 20px;
     bottom: 18px;
   }
