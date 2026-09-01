@@ -6,6 +6,8 @@ E-Mobility master's student at FAU Erlangen-Nürnberg.
 The site presents selected computer-vision research, independent deep-learning
 work, software projects, automation experience, education, and contact details.
 
+Live site: [midhun9901.github.io/portfolio](https://midhun9901.github.io/portfolio/)
+
 ## Development
 
 Requires Node.js 22.13 or newer.
@@ -15,18 +17,18 @@ npm install
 npm run dev
 ```
 
-## Quality checks
+## Checks
 
 ```bash
 npm test
 npm run lint
 ```
 
-## Production build
+## Production
 
 ```bash
 npm run build
 ```
 
-All professional claims and project metrics shown on the site are drawn from
-verified CV records or the linked public repositories.
+Built with React, TypeScript, and Vite. Pushes to `main` are deployed through
+GitHub Pages.

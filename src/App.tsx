@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type PointerEvent as ReactPointerEvent } from "react";
 
 const external = {
@@ -100,7 +98,6 @@ export default function Home() {
   const [snakeFood, setSnakeFood] = useState<SnakePoint>(FOOD_SEQUENCE[0]);
   const [snakeScore, setSnakeScore] = useState(0);
   const [snakeStatus, setSnakeStatus] = useState<"idle" | "running" | "over">("idle");
-  const glowRef = useRef<HTMLDivElement>(null);
   const snakeDirectionRef = useRef<SnakeDirection>({ x: 1, y: 0 });
   const swipeStartRef = useRef<{ x: number; y: number } | null>(null);
   const swipeHandledRef = useRef(false);
@@ -133,14 +130,6 @@ export default function Home() {
 
     const sections = document.querySelectorAll<HTMLElement>("[data-section]");
     const reveals = document.querySelectorAll<HTMLElement>("[data-reveal]");
-    const moveGlow = (event: PointerEvent) => {
-      if (!glowRef.current) return;
-      glowRef.current.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
-      glowRef.current.dataset.visible = "true";
-    };
-    const hideGlow = () => {
-      if (glowRef.current) glowRef.current.dataset.visible = "false";
-    };
     sections.forEach((section) => sectionObserver.observe(section));
     reveals.forEach((item) => {
       item.classList.add("reveal-ready");
@@ -149,12 +138,8 @@ export default function Home() {
 
     updateProgress();
     window.addEventListener("scroll", updateProgress, { passive: true });
-    window.addEventListener("pointermove", moveGlow, { passive: true });
-    document.documentElement.addEventListener("mouseleave", hideGlow);
     return () => {
       window.removeEventListener("scroll", updateProgress);
-      window.removeEventListener("pointermove", moveGlow);
-      document.documentElement.removeEventListener("mouseleave", hideGlow);
       sectionObserver.disconnect();
       revealObserver.disconnect();
     };
@@ -245,33 +230,9 @@ export default function Home() {
       ? "Collect the signal nodes"
       : "Tap, swipe, or use WASD";
 
-  const updateCardTilt = (event: ReactPointerEvent<HTMLElement>) => {
-    if (event.pointerType !== "mouse") return;
-    const card = event.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = (event.clientX - rect.left) / rect.width;
-    const y = (event.clientY - rect.top) / rect.height;
-    card.style.setProperty("--card-rotate-x", `${(0.5 - y) * 5}deg`);
-    card.style.setProperty("--card-rotate-y", `${(x - 0.5) * 6}deg`);
-    card.style.setProperty("--card-light-x", `${x * 100}%`);
-    card.style.setProperty("--card-light-y", `${y * 100}%`);
-  };
-
-  const resetCardTilt = (event: ReactPointerEvent<HTMLElement>) => {
-    const card = event.currentTarget;
-    card.style.removeProperty("--card-rotate-x");
-    card.style.removeProperty("--card-rotate-y");
-    card.style.removeProperty("--card-light-x");
-    card.style.removeProperty("--card-light-y");
-  };
-
   return (
     <main className="portfolio-shell">
-      <div className="opening-frame" aria-hidden="true"><span>MS</span><i /></div>
-      <div className="film-grain" aria-hidden="true" />
-      <div className="cursor-light" ref={glowRef} data-visible="false" aria-hidden="true" />
       <div className="scroll-progress" aria-hidden="true"><span style={{ width: `${scrollProgress}%` }} /></div>
-      <div className="ambient-grid" aria-hidden="true" style={{ transform: `translateY(${-scrollProgress * 0.45}px)` }} />
 
       <aside className="intro-panel">
         <div className="intro-copy">
@@ -363,9 +324,9 @@ export default function Home() {
         <section className="content-section about-section" id="about" data-section="about" aria-labelledby="about-title">
           <p className="section-kicker">About</p>
           <div data-reveal>
-            <h2 id="about-title">I work where models meet physical systems.</h2>
-            <p>My background began in mechanical engineering and E-Mobility. That trained me to think in systems: inputs, constraints, measurements, failure modes, and repeatability.</p>
-            <p>Today I apply the same discipline to deep learning—building controlled experiments, defending results with held-out evaluation, and documenting what failed as carefully as what worked.</p>
+            <h2 id="about-title">Mechanical engineering gave me the questions. Computer vision gave me new tools.</h2>
+            <p>I am an E-Mobility master’s student and research assistant at FAU. My work ranges from fine-grained image retrieval to an automated spray system built around real motion, pneumatic control, and measurable output.</p>
+            <p>I like projects I can understand end to end: define the experiment, build the pipeline, test it properly, and explain where it breaks.</p>
           </div>
           <div className="fact-row" data-reveal>
             <div><strong>7</strong><span>vision pipelines compared</span></div>
@@ -376,7 +337,7 @@ export default function Home() {
 
         <section className="content-section" id="experience" data-section="experience" aria-labelledby="experience-title">
           <p className="section-kicker">Experience</p>
-          <h2 className="section-title" id="experience-title" data-reveal>Research across models and machines.</h2>
+          <h2 className="section-title" id="experience-title" data-reveal>Current work at FAU, plus the path that led there.</h2>
           <div className="experience-list">
             {experience.map((item) => (
               <article className="experience-card" key={item.title} data-reveal>
@@ -400,7 +361,7 @@ export default function Home() {
 
         <section className="content-section" id="work" data-section="work" aria-labelledby="work-title">
           <p className="section-kicker">Selected work</p>
-          <h2 className="section-title" id="work-title" data-reveal>Four projects. Four ways of understanding a system.</h2>
+          <h2 className="section-title" id="work-title" data-reveal>From image retrieval to shop-floor automation.</h2>
 
           <div className="project-list">
             {projects.map((project) => {
@@ -427,8 +388,6 @@ export default function Home() {
                   rel="noreferrer"
                   aria-label={`Open ${project.title} repository on GitHub`}
                   data-reveal
-                  onPointerMove={updateCardTilt}
-                  onPointerLeave={resetCardTilt}
                 >
                   {content}
                 </a>
@@ -437,8 +396,6 @@ export default function Home() {
                   className="project-card"
                   key={project.number}
                   data-reveal
-                  onPointerMove={updateCardTilt}
-                  onPointerLeave={resetCardTilt}
                 >
                   {content}
                 </article>
@@ -450,8 +407,8 @@ export default function Home() {
         <section className="content-section contact-section" id="contact" data-section="contact" aria-labelledby="contact-title">
           <p className="section-kicker">Contact</p>
           <div data-reveal>
-            <h2 id="contact-title">Let’s work on something that needs to be measured—not merely demonstrated.</h2>
-            <p>I’m open to research, master’s thesis, and working-student opportunities in computer vision, machine learning, scientific ML, and intelligent systems.</p>
+            <h2 id="contact-title">Interested in working together?</h2>
+            <p>I’m open to research, master’s thesis, and working-student roles in computer vision, machine learning, scientific ML, and intelligent systems.</p>
             <a className="email-link" href={external.email}>midhunnrd812@gmail.com <Arrow /></a>
           </div>
           <footer>
