@@ -1008,7 +1008,7 @@ button:focus-visible,
     position: relative;
     height: auto;
     min-height: 100svh;
-    padding: 42px 24px 36px;
+    padding: max(42px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) 36px max(24px, env(safe-area-inset-left));
   }
 
   .intro-panel h1 {
@@ -1035,7 +1035,7 @@ button:focus-visible,
 
   .content-panel {
     border-left: 0;
-    padding: 0 24px;
+    padding: 0 max(24px, env(safe-area-inset-right)) 0 max(24px, env(safe-area-inset-left));
   }
 
   .content-section {
@@ -1064,17 +1064,28 @@ button:focus-visible,
 }
 
 @media (max-width: 560px) {
-  .intro-panel,
+  .monogram {
+    width: 44px;
+    height: 44px;
+  }
+
+  .intro-panel {
+    padding-right: max(18px, env(safe-area-inset-right));
+    padding-left: max(18px, env(safe-area-inset-left));
+  }
+
   .content-panel {
-    padding-inline: 18px;
+    padding-right: max(18px, env(safe-area-inset-right));
+    padding-left: max(18px, env(safe-area-inset-left));
   }
 
   .intro-panel h1 {
-    font-size: clamp(3.6rem, 18vw, 5.2rem);
+    font-size: clamp(2.75rem, 15vw, 4.6rem);
   }
 
   .intro-panel h1 span:last-child {
     font-size: 0.84em;
+    letter-spacing: -0.065em;
   }
 
   .intro-summary {
@@ -1082,39 +1093,70 @@ button:focus-visible,
   }
 
   .depth-stage {
-    height: 190px;
+    width: 100%;
+    height: 272px;
+    margin-top: 42px;
+    touch-action: pan-y;
   }
 
   .snake-console {
     width: 100%;
-    height: 172px;
-    padding: 8px;
+    height: 250px;
+    padding: 10px;
+    transform: none;
   }
 
   .snake-hud {
-    height: 18px;
+    height: 21px;
   }
 
   .snake-storyline {
-    bottom: 30px;
+    bottom: 59px;
     left: 13px;
   }
 
   .snake-footer {
-    height: 25px;
+    position: relative;
+    align-items: flex-end;
+    height: 52px;
+    padding-top: 8px;
+  }
+
+  .snake-footer p {
+    position: absolute;
+    top: 6px;
+    left: 0;
+    font-size: 0.46rem;
+  }
+
+  .snake-controls {
+    margin-left: auto;
+    gap: 4px;
   }
 
   .snake-controls button {
-    width: 18px;
-    height: 18px;
+    width: 44px;
+    height: 44px;
+    font-size: 0.82rem;
   }
 
   .fact-row {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 46px;
   }
 
   .fact-row > div {
-    min-height: 108px;
+    min-height: 112px;
+    padding: 12px 10px;
+  }
+
+  .fact-row strong {
+    font-size: clamp(1.55rem, 7vw, 2.15rem);
+  }
+
+  .fact-row span {
+    max-width: none;
+    font-size: 0.48rem;
   }
 
   .section-title {
@@ -1122,8 +1164,8 @@ button:focus-visible,
   }
 
   .project-card {
-    min-height: 350px;
-    padding: 22px;
+    min-height: 0;
+    padding: 22px 22px 88px;
   }
 
   .project-card h3 {
@@ -1138,12 +1180,30 @@ button:focus-visible,
   }
 
   .project-repository {
+    left: 22px;
     right: 20px;
     bottom: 18px;
+    min-height: 44px;
+  }
+
+  .about-section > div:first-of-type > p,
+  .contact-section > div > p {
+    font-size: 0.96rem;
+    line-height: 1.7;
+  }
+
+  .experience-copy,
+  .project-card > p {
+    font-size: 0.92rem;
+  }
+
+  .contact-section h2 {
+    font-size: clamp(2.35rem, 12vw, 3.2rem);
   }
 
   .email-link {
     width: 100%;
+    min-height: 48px;
     justify-content: space-between;
     font-size: 0.7rem;
   }
@@ -1151,6 +1211,7 @@ button:focus-visible,
   .contact-section footer {
     gap: 10px;
     flex-direction: column;
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
   }
 }
 
@@ -1183,5 +1244,25 @@ button:focus-visible,
 @media (hover: none), (pointer: coarse) {
   .cursor-light {
     display: none;
+  }
+
+  .project-card,
+  .project-card:hover,
+  .project-card.reveal-ready.is-visible:hover {
+    transform: none;
+  }
+
+  .project-card:hover::before {
+    transform: translateZ(25px);
+  }
+
+  .project-card:hover::after {
+    opacity: 0;
+  }
+
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
   }
 }

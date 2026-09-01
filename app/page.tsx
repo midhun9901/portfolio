@@ -246,6 +246,7 @@ export default function Home() {
       : "Tap, swipe, or use WASD";
 
   const updateCardTilt = (event: ReactPointerEvent<HTMLElement>) => {
+    if (event.pointerType !== "mouse") return;
     const card = event.currentTarget;
     const rect = card.getBoundingClientRect();
     const x = (event.clientX - rect.left) / rect.width;
