@@ -38,6 +38,8 @@ test("keeps public metadata and portfolio identity in the static entry point", (
   assert.match(html, /https:\/\/midhun9901\.github\.io\/portfolio\/og\.png/);
   assert.match(app, /I work where models meet physical systems/);
   assert.match(app, /Hold on/);
+  assert.match(app, /Open Midhun's GitHub profile/);
+  assert.match(app, /Open Midhun's LinkedIn profile/);
   assert.match(app, /Playable Snake game/);
 });
 

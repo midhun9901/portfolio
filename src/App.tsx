@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, 
 
 const external = {
   github: "https://github.com/midhun9901",
-  linkedin: "https://www.linkedin.com/in/midhun-somanunnithan",
+  linkedin: "https://www.linkedin.com/in/midhun-somanunnithan/",
   email: "mailto:midhunnrd812@gmail.com",
 };
 
@@ -324,7 +324,8 @@ export default function Home() {
 
           <div className="hero-actions" aria-label="Primary actions">
             <a className="primary-action" href="#work">View selected work <span aria-hidden="true">↓</span></a>
-            <a href={external.linkedin} target="_blank" rel="noreferrer">LinkedIn <Arrow /></a>
+            <a href={external.linkedin} aria-label="Open Midhun's LinkedIn profile">LinkedIn <Arrow /></a>
+            <a href={external.github} aria-label="Open Midhun's GitHub profile">GitHub <Arrow /></a>
           </div>
 
           <nav className="section-nav" aria-label="Portfolio sections">
