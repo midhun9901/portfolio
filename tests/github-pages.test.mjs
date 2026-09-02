@@ -16,6 +16,7 @@ test("builds a self-contained GitHub Pages site under the repository path", asyn
   assert.doesNotMatch(html, /\/_next\//);
   assert.ok(existsSync(new URL(".nojekyll", outputDirectory)));
   assert.ok(existsSync(new URL("favicon.svg", outputDirectory)));
+  assert.ok(existsSync(new URL("og.png", outputDirectory)));
 
   const assets = await readdir(new URL("assets/", outputDirectory));
   assert.ok(assets.some((asset) => asset.endsWith(".js")));
@@ -34,6 +35,16 @@ test("keeps public metadata and portfolio identity in the static entry point", (
   assert.match(html, /Midhun Somanunnithan/);
   assert.match(html, /Machine Learning Researcher & Engineer/);
   assert.match(html, /https:\/\/midhun9901\.github\.io\/portfolio\//);
-  assert.match(app, /Mechanical engineering gave me the questions/);
+  assert.match(html, /https:\/\/midhun9901\.github\.io\/portfolio\/og\.png/);
+  assert.match(app, /I work where models meet physical systems/);
+  assert.match(app, /Hold on/);
   assert.match(app, /Playable Snake game/);
+});
+
+test("presents selected work as evidence-led case studies", () => {
+  assert.match(app, /My contribution/);
+  assert.match(app, /83\.39% mAP/);
+  assert.match(app, /vase-urn-project\/v5-dinov2-retrieval\/results\.svg/);
+  assert.match(app, /deep-learning-from-scratch\/main\/01-micrograd\/assets\/computation_graph\.png/);
+  assert.match(app, /jarvis\/main\/docs\/system-architecture\.svg/);
 });
