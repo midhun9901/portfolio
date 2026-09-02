@@ -57,8 +57,7 @@ a {
 }
 
 a:focus-visible,
-button:focus-visible,
-.depth-stage:focus-visible {
+button:focus-visible {
   outline: 3px solid var(--accent);
   outline-offset: 5px;
 }
@@ -403,7 +402,6 @@ body.is-loading {
   width: min(400px, 80%);
   height: 230px;
   margin: auto auto 0;
-  touch-action: none;
   cursor: default;
 }
 
@@ -420,164 +418,166 @@ body.is-loading {
   transform: rotateX(72deg);
 }
 
-.snake-console {
+.practice-card {
   position: absolute;
   top: 50%;
   left: 50%;
-  display: flex;
-  flex-direction: column;
-  width: min(340px, 96%);
-  height: 190px;
-  padding: 11px;
+  width: min(350px, 96%);
+  min-height: 200px;
+  padding: 18px;
   overflow: hidden;
-  border: 1px solid rgba(78, 227, 194, 0.52);
+  border: 1px solid rgba(150, 190, 205, 0.24);
   background:
-    radial-gradient(circle at 88% 8%, rgba(105, 174, 248, 0.12), transparent 42%),
-    rgba(5, 18, 27, 0.97);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.36), inset 0 0 46px rgba(78, 227, 194, 0.035);
-  transform: rotateX(3deg) rotateY(-4deg);
+    linear-gradient(135deg, rgba(78, 227, 194, 0.055), transparent 42%),
+    radial-gradient(circle at 92% 4%, rgba(105, 174, 248, 0.1), transparent 40%),
+    rgba(5, 18, 27, 0.98);
+  box-shadow: 0 22px 52px rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.025);
+  transform: rotateX(2deg) rotateY(-3deg);
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
   translate: -50% -50%;
 }
 
-.snake-stage:hover .snake-console,
-.snake-stage:focus-visible .snake-console,
-.snake-stage.is-running .snake-console {
-  border-color: rgba(78, 227, 194, 0.82);
-  box-shadow: 0 24px 58px rgba(0, 0, 0, 0.42), 0 0 30px rgba(78, 227, 194, 0.11);
+.practice-stage:hover .practice-card {
+  border-color: rgba(78, 227, 194, 0.48);
+  box-shadow: 0 26px 62px rgba(0, 0, 0, 0.42), 0 0 34px rgba(78, 227, 194, 0.075);
   transform: rotateX(0) rotateY(0);
 }
 
-.snake-console::after {
+.practice-card::before {
   position: absolute;
+  top: 0;
   right: 0;
   left: 0;
-  z-index: 4;
-  height: 32px;
-  opacity: 0.11;
-  background: linear-gradient(transparent, var(--accent), transparent);
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--blue), transparent 82%);
   content: "";
-  pointer-events: none;
-  animation: snake-scan 4.8s linear infinite;
 }
 
-.snake-hud,
-.snake-footer,
-.snake-storyline {
-  position: relative;
-  z-index: 3;
+.practice-heading,
+.practice-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.48rem;
-  font-weight: 750;
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.snake-hud {
-  height: 21px;
+.practice-heading {
+  padding-bottom: 13px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.48rem;
 }
 
-.snake-hud span,
-.snake-hud b,
-.snake-storyline b {
+.practice-heading span {
   color: var(--accent);
+  font-weight: 800;
 }
 
-.snake-board {
+.practice-heading b {
+  color: var(--muted);
+  font-size: 0.45rem;
+  font-weight: 650;
+}
+
+.practice-flow {
+  position: relative;
+  display: grid;
+  padding: 7px 0;
+}
+
+.practice-flow::before {
+  position: absolute;
+  top: 24px;
+  bottom: 24px;
+  left: 10px;
+  width: 1px;
+  background: linear-gradient(var(--accent), var(--blue), var(--violet));
+  content: "";
+}
+
+.practice-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 32px 1fr auto;
+  gap: 10px;
+  align-items: center;
+  min-height: 43px;
+}
+
+.practice-step > span {
   position: relative;
   z-index: 2;
   display: grid;
-  flex: 1;
-  grid-template-columns: repeat(18, 1fr);
-  grid-template-rows: repeat(9, 1fr);
-  gap: 1px;
-  padding: 4px;
-  border: 1px solid rgba(105, 174, 248, 0.2);
-  background: rgba(2, 12, 20, 0.82);
-  box-shadow: inset 0 0 26px rgba(0, 0, 0, 0.42);
-}
-
-.snake-board i {
-  min-width: 0;
-  min-height: 0;
-  background: rgba(94, 234, 212, 0.025);
-  transition: background 80ms linear, box-shadow 80ms linear, transform 80ms linear;
-}
-
-.snake-board i.snake-body {
-  background: linear-gradient(135deg, rgba(78, 227, 194, 0.72), rgba(105, 174, 248, 0.58));
-  box-shadow: 0 0 6px rgba(78, 227, 194, 0.3);
-}
-
-.snake-board i.snake-head {
-  z-index: 2;
-  background: var(--text-bright);
-  box-shadow: 0 0 8px rgba(94, 234, 212, 0.9);
-  transform: scale(1.16);
-}
-
-.snake-board i.snake-food {
+  place-items: center;
+  width: 21px;
+  height: 21px;
   border-radius: 50%;
-  background: var(--amber);
-  box-shadow: 0 0 14px rgba(255, 193, 102, 0.88);
-  animation: snake-node 900ms ease-in-out infinite alternate;
+  background: var(--navy-deep);
+  color: var(--accent);
+  font-family: var(--font-mono);
+  font-size: 0.42rem;
+  font-weight: 800;
 }
 
-.snake-storyline {
-  position: absolute;
-  bottom: 35px;
-  left: 17px;
-  gap: 7px;
-  padding: 4px 6px;
-  background: rgba(3, 15, 23, 0.82);
+.practice-step:nth-child(2) > span {
+  color: var(--blue);
 }
 
-.snake-storyline span {
-  color: var(--text-bright);
+.practice-step:nth-child(3) > span {
+  color: var(--violet);
 }
 
-.snake-footer {
-  height: 29px;
-  padding-top: 5px;
-}
-
-.snake-footer p {
-  margin: 0;
-  color: rgba(139, 160, 173, 0.72);
-}
-
-.snake-controls {
-  display: flex;
+.practice-step div {
+  display: grid;
   gap: 3px;
 }
 
-.snake-controls button {
-  display: grid;
-  place-items: center;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  border: 1px solid rgba(94, 234, 212, 0.2);
-  background: rgba(94, 234, 212, 0.04);
+.practice-step b {
+  color: var(--text-bright);
+  font-size: 0.72rem;
+  font-weight: 650;
+}
+
+.practice-step small {
   color: var(--muted);
   font-family: var(--font-mono);
-  font-size: 0.6rem;
-  cursor: pointer;
+  font-size: 0.43rem;
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
 }
 
-.snake-controls button:hover,
-.snake-controls button:focus-visible {
-  border-color: var(--accent);
+.practice-step > i {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
   background: var(--accent);
-  color: var(--navy);
+  box-shadow: 0 0 10px rgba(78, 227, 194, 0.5);
+  animation: practice-pulse 2.8s ease-in-out infinite;
 }
 
-.snake-stage.is-over .snake-console {
-  border-color: rgba(248, 113, 113, 0.45);
+.practice-step:nth-child(2) > i {
+  background: var(--blue);
+  box-shadow: 0 0 10px rgba(105, 174, 248, 0.5);
+  animation-delay: 400ms;
+}
+
+.practice-step:nth-child(3) > i {
+  background: var(--violet);
+  box-shadow: 0 0 10px rgba(182, 160, 255, 0.5);
+  animation-delay: 800ms;
+}
+
+.practice-footer {
+  padding-top: 13px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.43rem;
+}
+
+.practice-footer strong {
+  color: var(--text);
+  font-weight: 700;
 }
 
 .socials {
@@ -1229,14 +1229,9 @@ body.is-loading {
   transform: translateY(0);
 }
 
-@keyframes snake-scan {
-  from { top: -34px; }
-  to { top: calc(100% + 2px); }
-}
-
-@keyframes snake-node {
-  from { transform: scale(0.68); opacity: 0.72; }
-  to { transform: scale(1); opacity: 1; }
+@keyframes practice-pulse {
+  0%, 100% { opacity: 0.48; transform: scale(0.82); }
+  50% { opacity: 1; transform: scale(1.18); }
 }
 
 @keyframes pulse {
@@ -1388,50 +1383,35 @@ body.is-loading {
 
   .depth-stage {
     width: 100%;
-    height: 272px;
+    height: 238px;
     margin-top: 42px;
-    touch-action: pan-y;
   }
 
-  .snake-console {
+  .practice-card {
     width: 100%;
-    height: 250px;
-    padding: 10px;
+    min-height: 216px;
+    padding: 16px;
     transform: none;
   }
 
-  .snake-hud {
-    height: 21px;
+  .practice-heading {
+    gap: 12px;
   }
 
-  .snake-storyline {
-    bottom: 59px;
-    left: 13px;
+  .practice-heading b {
+    text-align: right;
   }
 
-  .snake-footer {
-    position: relative;
-    align-items: flex-end;
-    height: 52px;
-    padding-top: 8px;
+  .practice-step {
+    min-height: 45px;
   }
 
-  .snake-footer p {
-    position: absolute;
-    top: 6px;
-    left: 0;
-    font-size: 0.46rem;
+  .practice-step b {
+    font-size: 0.7rem;
   }
 
-  .snake-controls {
-    margin-left: auto;
-    gap: 4px;
-  }
-
-  .snake-controls button {
-    width: 44px;
-    height: 44px;
-    font-size: 0.82rem;
+  .practice-footer {
+    gap: 12px;
   }
 
   .fact-row {

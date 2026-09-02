@@ -26,7 +26,7 @@ test("builds a self-contained GitHub Pages site under the repository path", asyn
 
 test("keeps narrow screens touch-friendly and free from desktop-only effects", () => {
   assert.match(responsiveCss, /@media \(max-width: 560px\)/);
-  assert.match(responsiveCss, /\.snake-controls button[\s\S]*?width: 44px;[\s\S]*?height: 44px;/);
+  assert.match(responsiveCss, /\.practice-card[\s\S]*?width: 100%;/);
   assert.match(responsiveCss, /env\(safe-area-inset-left\)/);
   assert.match(responsiveCss, /@media \(hover: none\), \(pointer: coarse\)/);
   assert.match(responsiveCss, /\.project-card\.reveal-ready\.is-visible:hover[\s\S]*?transform: none;/);
@@ -42,7 +42,15 @@ test("keeps public metadata and portfolio identity in the static entry point", (
   assert.match(app, /Open Midhun's GitHub profile/);
   assert.match(app, /Open Midhun's LinkedIn profile/);
   assert.match(app, /download="Midhun_Somanunnithan_CV\.pdf"/);
-  assert.match(app, /Playable Snake game/);
+  assert.match(app, /Engineering scope/);
+});
+
+test("keeps the introduction professional and game-free", () => {
+  assert.match(app, /Physical systems/);
+  assert.match(app, /Computer vision/);
+  assert.match(app, /Build \/ measure \/ validate/);
+  assert.doesNotMatch(app, /snake/i);
+  assert.doesNotMatch(responsiveCss, /snake-/i);
 });
 
 test("uses a vibrant, restrained color system across the portfolio", () => {
