@@ -45,6 +45,14 @@ test("keeps public metadata and portfolio identity in the static entry point", (
   assert.match(app, /Playable Snake game/);
 });
 
+test("uses a vibrant, restrained color system across the portfolio", () => {
+  assert.match(responsiveCss, /--accent: #4ee3c2;/);
+  assert.match(responsiveCss, /--blue: #69aef8;/);
+  assert.match(responsiveCss, /--amber: #ffc166;/);
+  assert.match(responsiveCss, /--violet: #b6a0ff;/);
+  assert.match(responsiveCss, /\.project-card:nth-child\(4\)[\s\S]*?--card-accent: var\(--violet\);/);
+});
+
 test("presents selected work as evidence-led case studies", () => {
   assert.match(app, /My contribution/);
   assert.match(app, /83\.39% mAP/);
