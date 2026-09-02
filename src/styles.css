@@ -323,6 +323,11 @@ body.is-loading {
   color: var(--accent);
 }
 
+.hero-actions .cv-action {
+  border-color: rgba(112, 199, 183, 0.55);
+  color: var(--accent);
+}
+
 .section-nav {
   display: grid;
   gap: 5px;

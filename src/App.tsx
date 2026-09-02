@@ -4,6 +4,7 @@ const external = {
   github: "https://github.com/midhun9901",
   linkedin: "https://www.linkedin.com/in/midhun-somanunnithan/",
   email: "mailto:midhunnrd812@gmail.com",
+  cv: "./Midhun_Somanunnithan_CV.pdf",
 };
 
 const navigation = [
@@ -324,6 +325,7 @@ export default function Home() {
 
           <div className="hero-actions" aria-label="Primary actions">
             <a className="primary-action" href="#work">View selected work <span aria-hidden="true">↓</span></a>
+            <a className="cv-action" href={external.cv} download="Midhun_Somanunnithan_CV.pdf" aria-label="Download Midhun's CV as PDF">Download CV <span aria-hidden="true">↓</span></a>
             <a href={external.linkedin} aria-label="Open Midhun's LinkedIn profile">LinkedIn <Arrow /></a>
             <a href={external.github} aria-label="Open Midhun's GitHub profile">GitHub <Arrow /></a>
           </div>
@@ -493,6 +495,7 @@ export default function Home() {
             <p>I’m open to research, master’s thesis, and working-student roles in computer vision, machine learning, scientific ML, and intelligent systems.</p>
             <div className="contact-actions">
               <a className="email-link" href={external.email}>midhunnrd812@gmail.com <Arrow /></a>
+              <a href={external.cv} download="Midhun_Somanunnithan_CV.pdf">Download CV <span aria-hidden="true">↓</span></a>
               <a href={external.linkedin} target="_blank" rel="noreferrer">LinkedIn <Arrow /></a>
               <a href={external.github} target="_blank" rel="noreferrer">GitHub <Arrow /></a>
             </div>

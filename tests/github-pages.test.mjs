@@ -17,6 +17,7 @@ test("builds a self-contained GitHub Pages site under the repository path", asyn
   assert.ok(existsSync(new URL(".nojekyll", outputDirectory)));
   assert.ok(existsSync(new URL("favicon.svg", outputDirectory)));
   assert.ok(existsSync(new URL("og.png", outputDirectory)));
+  assert.ok(existsSync(new URL("Midhun_Somanunnithan_CV.pdf", outputDirectory)));
 
   const assets = await readdir(new URL("assets/", outputDirectory));
   assert.ok(assets.some((asset) => asset.endsWith(".js")));
@@ -40,6 +41,7 @@ test("keeps public metadata and portfolio identity in the static entry point", (
   assert.match(app, /Hold on/);
   assert.match(app, /Open Midhun's GitHub profile/);
   assert.match(app, /Open Midhun's LinkedIn profile/);
+  assert.match(app, /download="Midhun_Somanunnithan_CV\.pdf"/);
   assert.match(app, /Playable Snake game/);
 });
 
