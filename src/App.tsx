@@ -17,17 +17,17 @@ const navigation = [
 const experience = [
   {
     date: "Feb 2026 — Present",
-    title: "Deep Learning Research Assistant — Computer Vision",
-    company: "FAU Erlangen-Nürnberg",
+    title: "Research Project — Computer Vision",
+    company: "FAU Pattern Recognition Lab",
     copy: "Designing and evaluating reproducible image-retrieval experiments across CNN and Vision Transformer backbones, metric-learning objectives, segmentation, and pose features.",
-    tools: ["PyTorch", "DINOv2", "FAISS", "SLURM", "A100"],
+    tools: ["PyTorch", "DINOv2", "FAISS", "SLURM"],
   },
   {
-    date: "2026 — Present",
-    title: "Research Assistant — Automation & Mechatronics",
-    company: "FAU Institute of Manufacturing Technology",
-    copy: "Developing automated spray workflows with multi-axis motion and pneumatic control, then validating repeatability through parameter studies on physical equipment.",
-    tools: ["GRBL", "OpenCV", "Automation", "Validation"],
+    date: "Apr — Sep 2026",
+    title: "Project Thesis — Automated DIC Specimen Preparation",
+    company: "FAU Chair of Manufacturing Technology (LFT)",
+    copy: "Recommissioned an automated spray system for DIC speckle patterns, compared 10 spray configurations on 30 tensile specimens with ARAMIS pattern quality, and designed a fixture for batch spraying.",
+    tools: ["GRBL", "DIC / ARAMIS", "Statistics", "Fixture design"],
   },
   {
     date: "Oct — Dec 2023",
@@ -45,7 +45,7 @@ const projects = [
     label: "Computer vision research",
     problem: "Match different historical depictions of the same vase despite viewpoint changes, crops, occlusion, and near-identical objects.",
     contribution: "Built seven controlled retrieval families on one folder-level split, comparing CNN and ViT features with metric-learning objectives, segmentation, and pose cues.",
-    proof: "83.39% mAP · 80.77% Acc@1 · 100% Acc@10",
+    proof: "78.26% mAP · 77.36% Acc@1 · 100% Acc@10 on 53 held-out queries",
     tags: ["PyTorch", "DINOv2", "Metric Learning", "FAISS"],
     href: "https://github.com/midhun9901/vase-urn-project",
     visual: "https://raw.githubusercontent.com/midhun9901/vase-urn-project/v5-dinov2-retrieval/results.svg",
@@ -54,12 +54,12 @@ const projects = [
   },
   {
     number: "02",
-    title: "Automated spray intelligence",
-    label: "Automation · Vision · Optimization",
-    problem: "Turn a physical spray process into a repeatable system whose motion, pneumatic timing, and coating quality can be measured and improved.",
-    contribution: "Developed programmable multi-axis trajectories and pneumatic control, then connected OpenCV measurement, learned quality models, and Bayesian parameter optimization.",
-    proof: "Programmable motion · vision-based measurement · parameter search",
-    tags: ["GRBL", "OpenCV", "PyTorch", "Bayesian Optimization"],
+    title: "Automated DIC speckle spraying",
+    label: "Manufacturing · Experimental design",
+    problem: "Digital image correlation needs a clear, repeatable speckle pattern, but hand spraying varies from person to person.",
+    contribution: "Recommissioned an automated spray system (separate air valves, Grbl G-code, cleaning routine), compared 10 spray configurations on 30 tensile specimens rated with ARAMIS pattern quality, and tested the effects with Welch tests and Holm correction.",
+    proof: "Mean pattern quality 7.26 vs. 4.19 for hand-sprayed specimens (DP1000)",
+    tags: ["GRBL", "DIC / ARAMIS", "Statistics", "Fixture design"],
   },
   {
     number: "03",
@@ -124,7 +124,7 @@ function SprayTrajectoryVisual() {
   return (
     <svg className="spray-trajectory" viewBox="0 0 720 430" role="img" aria-labelledby="spray-title spray-desc">
       <title id="spray-title">Automated spray workflow schematic</title>
-      <desc id="spray-desc">A programmed multi-axis spray path connects motion control to image measurement and parameter optimization.</desc>
+      <desc id="spray-desc">A programmed multi-axis spray path produces a speckle pattern whose quality is measured and compared across spray settings.</desc>
       <defs>
         <pattern id="spray-grid" width="36" height="36" patternUnits="userSpaceOnUse">
           <path d="M 36 0 L 0 0 0 36" fill="none" stroke="currentColor" strokeOpacity="0.12" strokeWidth="1" />
@@ -142,14 +142,14 @@ function SprayTrajectoryVisual() {
       <g className="spray-node">
         <circle cx="112" cy="312" r="7" /><text x="94" y="340">START</text>
         <circle cx="276" cy="118" r="7" /><text x="248" y="94">MEASURE</text>
-        <circle cx="458" cy="312" r="7" /><text x="430" y="340">MODEL</text>
-        <circle cx="628" cy="118" r="7" /><text x="588" y="94">OPTIMIZE</text>
+        <circle cx="458" cy="312" r="7" /><text x="424" y="340">COMPARE</text>
+        <circle cx="628" cy="118" r="7" /><text x="572" y="94">RECOMMEND</text>
       </g>
       <g className="spray-nozzle" transform="translate(346 188)">
         <path d="M-18 0H18L10 28H-10Z" />
         <path d="M-3 28L-18 69M3 28L18 69M0 28V73" />
       </g>
-      <text className="spray-caption" x="40" y="402">PROGRAMMED TRAJECTORY / CLOSED-LOOP STUDY</text>
+      <text className="spray-caption" x="40" y="402">PROGRAMMED TRAJECTORY / PARAMETER STUDY</text>
     </svg>
   );
 }
@@ -268,19 +268,19 @@ export default function Home() {
           <p className="section-kicker">About</p>
           <div data-reveal>
             <h2 id="about-title">I work where models meet physical systems.</h2>
-            <p>I am an E-Mobility master’s student and research assistant at FAU. My work ranges from fine-grained image retrieval to an automated spray system built around real motion, pneumatic control, and measurable output.</p>
+            <p>I am an E-Mobility master’s student at FAU. My work ranges from a research project on fine-grained image retrieval at the Pattern Recognition Lab to an automated spray system I recommissioned for my project thesis, built around real motion, pneumatic control, and measurable output.</p>
             <p>My approach is end to end: define the experiment, build the pipeline, evaluate it on held-out data, and document failure as carefully as success.</p>
           </div>
           <div className="fact-row" data-reveal>
             <div><strong>7</strong><span>retrieval families compared</span></div>
-            <div><strong>83.39%</strong><span>best retrieval mAP</span></div>
-            <div><strong>2×</strong><span>research roles at FAU</span></div>
+            <div><strong>78.26%</strong><span>best retrieval mAP</span></div>
+            <div><strong>30</strong><span>tensile specimens tested</span></div>
           </div>
         </section>
 
         <section className="content-section" id="experience" data-section="experience" aria-labelledby="experience-title">
           <p className="section-kicker">Experience</p>
-          <h2 className="section-title" id="experience-title" data-reveal>Current work at FAU, plus the path that led there.</h2>
+          <h2 className="section-title" id="experience-title" data-reveal>Work at FAU, plus the path that led there.</h2>
           <div className="experience-list">
             {experience.map((item) => (
               <article className="experience-card" key={item.title} data-reveal>

@@ -63,7 +63,7 @@ test("uses a vibrant, restrained color system across the portfolio", () => {
 
 test("presents selected work as evidence-led case studies", () => {
   assert.match(app, /My contribution/);
-  assert.match(app, /83\.39% mAP/);
+  assert.match(app, /78\.26% mAP/);
   assert.match(app, /vase-urn-project\/v5-dinov2-retrieval\/results\.svg/);
   assert.match(app, /deep-learning-from-scratch\/main\/01-micrograd\/assets\/computation_graph\.png/);
   assert.match(app, /jarvis\/main\/docs\/system-architecture\.svg/);
